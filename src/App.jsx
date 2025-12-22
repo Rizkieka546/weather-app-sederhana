@@ -6,7 +6,7 @@ import WeeklyForecast from "./components/WeeklyForecast";
 import ThemeToggle from "./components/ThemeToggle";
 import { CloudSun, CloudOff } from "lucide-react";
 
-const API_KEY = "81ea851bc35147fbb6041943251211"; // pastikan key aktif dari WeatherAPI
+const API_KEY = "81ea851bc35147fbb6041943251211";
 
 export default function App() {
   const [city, setCity] = useState("Cianjur");
