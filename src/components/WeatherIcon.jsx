@@ -1,48 +1,30 @@
-// src/components/WeatherIcon.jsx
-export default function WeatherIcon({ code, size = 50 }) {
-  // Warna dasar icon
-  const color = "#FBBF24"; // kuning matahari default
+export default function WeatherIcon({ code, size = 64 }) {
+  // Mapping Open-Meteo ke Visual
+  const isRain = [51, 53, 55, 61, 63, 65, 80, 81, 82].includes(code);
+  const isCloudy = [1, 2, 3, 45, 48].includes(code);
+  const isClear = code === 0;
 
-  switch (code) {
-    case 0: // Clear sky
-      return (
-        <svg width={size} height={size} viewBox="0 0 64 64">
-          <circle cx="32" cy="32" r="16" fill={color} />
+  return (
+    <div style={{ width: size, height: size }} className="flex items-center justify-center">
+      {isClear && (
+        <svg viewBox="0 0 64 64" className="drop-shadow-[0_0_15px_rgba(255,215,0,0.5)]">
+          <circle cx="32" cy="32" r="18" fill="#FBBF24" />
         </svg>
-      );
-    case 1: // Mainly clear
-      return (
-        <svg width={size} height={size} viewBox="0 0 64 64">
-          <circle cx="32" cy="28" r="14" fill={color} />
-          <circle cx="40" cy="40" r="14" fill="lightblue" opacity="0.5" />
+      )}
+      {isCloudy && (
+        <svg viewBox="0 0 64 64">
+          <circle cx="24" cy="28" r="12" fill="#FBBF24" opacity="0.4" />
+          <path d="M46 45a14 14 0 10-20-20 14 14 0 0020 20z" fill="#94a3b8" />
+          <path d="M30 45a12 12 0 100-24 12 12 0 000 24z" fill="#cbd5e1" />
         </svg>
-      );
-    case 2: // Partly cloudy
-      return (
-        <svg width={size} height={size} viewBox="0 0 64 64">
-          <circle cx="24" cy="28" r="12" fill={color} />
-          <ellipse cx="36" cy="36" rx="16" ry="10" fill="lightgray" />
+      )}
+      {isRain && (
+        <svg viewBox="0 0 64 64">
+          <path d="M46 35a14 14 0 10-28 0c0 8 6 8 14 8s14 0 14-8z" fill="#64748b" />
+          <path d="M26 45l-2 8 M34 45l-2 8" stroke="#3b82f6" strokeWidth="3" strokeLinecap="round" />
         </svg>
-      );
-    case 3: // Overcast
-      return <ellipse cx={32} cy={32} rx={24} ry={14} fill="gray" />;
-    case 61: // Rain
-      return (
-        <svg width={size} height={size} viewBox="0 0 64 64">
-          <ellipse cx="32" cy="28" rx="20" ry="12" fill="gray" />
-          <line x1="24" y1="40" x2="24" y2="52" stroke="blue" strokeWidth="2" />
-          <line x1="32" y1="40" x2="32" y2="52" stroke="blue" strokeWidth="2" />
-          <line x1="40" y1="40" x2="40" y2="52" stroke="blue" strokeWidth="2" />
-        </svg>
-      );
-    case 71: // Snow
-      return (
-        <svg width={size} height={size} viewBox="0 0 64 64">
-          <ellipse cx="32" cy="28" rx="20" ry="12" fill="lightgray" />
-          <text x="32" y="44" textAnchor="middle" fontSize="16" fill="white">❄️</text>
-        </svg>
-      );
-    default:
-      return <text>❓</text>;
-  }
+      )}
+      {!isClear && !isCloudy && !isRain && <span style={{ fontSize: size/2 }}>☁️</span>}
+    </div>
+  );
 }
